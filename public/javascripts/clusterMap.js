@@ -1,10 +1,12 @@
 mapboxgl.accessToken = mapToken
 const map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/light-v10',
+  style: 'mapbox://styles/mapbox/outdoors-v11',
   center: [-103.59179687498357, 40.66995747013945],
   zoom: 3,
 })
+
+console.log(campgrounds)
 
 map.on('load', function () {
   // Add a new source from our GeoJSON data and
@@ -92,15 +94,10 @@ map.on('load', function () {
   // the location of the feature, with
   // description HTML from its properties.
   map.on('click', 'unclustered-point', function (e) {
-    const coordinates = e.features[0].geometry.coordinates.slice()
-    const mag = e.features[0].properties.mag
-    var tsunami
 
-    if (e.features[0].properties.tsunami === 1) {
-      tsunami = 'yes'
-    } else {
-      tsunami = 'no'
-    }
+    const { popUpMarkUp } = e.features[0].properties
+    const coordinates = e.features[0].geometry.coordinates
+    // const mag = e.features[0].properties.mag
 
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
@@ -111,7 +108,7 @@ map.on('load', function () {
 
     new mapboxgl.Popup()
       .setLngLat(coordinates)
-      .setHTML('magnitude: ' + mag + '<br>Was there a tsunami?: ' + tsunami)
+      .setHTML(popUpMarkUp)
       .addTo(map)
   })
 
