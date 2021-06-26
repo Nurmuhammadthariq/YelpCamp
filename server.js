@@ -9,7 +9,6 @@ const ejsMate = require('ejs-mate')
 const session = require('express-session')
 const flash = require('connect-flash')
 const ExpressError = require('./utils/ExpressError')
-const port = 3000
 const methodOverride = require('method-override')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
@@ -159,6 +158,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err })
 })
 
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Serving on port ${port}`)
 })
